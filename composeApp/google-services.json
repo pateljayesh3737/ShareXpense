@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957164019790",
+    "project_id": "sharexpense-faa8c",
+    "storage_bucket": "sharexpense-faa8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957164019790:android:b2f354e241f1034d5ee31f",
+        "android_client_info": {
+          "package_name": "com.jayesh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiEHCesbNkhqC_HExLoT-i_DbZS9p2fO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -42,6 +43,14 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.voyager.navigator)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.firestore) 
+            implementation(libs.firebase.common)
+            implementation(libs.kotlinx.serialization.json) 
+        }
+
+        dependencies {
+            implementation(libs.firebase.common.ktx)
         }
     }
 }
