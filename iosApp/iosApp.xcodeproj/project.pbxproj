@@ -46,6 +46,7 @@
 				7555FF7D242A565900829871 /* iosApp */,
 				7555FF7C242A565900829871 /* Products */,
 				42799AB246E5F90AF97AA0EF /* Frameworks */,
+				C1B4551C1256358B12A87EF5 /* xcuserdata */,
 			);
 			sourceTree = "<group>";
 		};
@@ -75,6 +76,30 @@
 				AB3632DC29227652001CCB65 /* Config.xcconfig */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		C1B4551C1256358B12A87EF5 /* xcuserdata */ = {
+			isa = PBXGroup;
+			children = (
+				C1B45837C6CC4A20C2682905 /* jayeshkumar.xcuserdatad */,
+			);
+			name = xcuserdata;
+			path = iosApp.xcodeproj/xcuserdata;
+			sourceTree = "<group>";
+		};
+		C1B457E0B80B63FA886E4EA7 /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = xcschemes;
+			sourceTree = "<group>";
+		};
+		C1B45837C6CC4A20C2682905 /* jayeshkumar.xcuserdatad */ = {
+			isa = PBXGroup;
+			children = (
+				C1B457E0B80B63FA886E4EA7 /* xcschemes */,
+			);
+			path = jayeshkumar.xcuserdatad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
