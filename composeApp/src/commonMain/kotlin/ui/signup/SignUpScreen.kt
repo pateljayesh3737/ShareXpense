@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -29,6 +27,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import ui.home.HomeScreen
+import util.CircularProgressBar
 
 object SignUpScreen : Screen {
 
@@ -101,12 +100,7 @@ object SignUpScreen : Screen {
                     }
 
                     is SignUpScreenModel.State.Loading -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .padding(10.dp)
-                                .align(Alignment.CenterHorizontally)
-                        )
+                        CircularProgressBar()
                     }
 
                     is SignUpScreenModel.State.Success -> {

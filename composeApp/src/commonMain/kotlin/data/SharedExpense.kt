@@ -1,5 +1,8 @@
 package data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class SharedExpense(
     val expenseId: String,
     val name: String,
