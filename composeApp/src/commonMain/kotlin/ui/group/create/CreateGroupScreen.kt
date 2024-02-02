@@ -1,4 +1,4 @@
-package ui.group
+package ui.group.create
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

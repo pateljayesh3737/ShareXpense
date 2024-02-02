@@ -1,5 +1,6 @@
-package ui.group
+package ui.group.list
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,9 +14,9 @@ import data.Group
 
 @Composable
 fun GroupList(groups: List<Group>) {
-    LazyColumn {
-        items(groups) { group ->
-            GroupCard(group)
+    LazyColumn(modifier = Modifier.padding(10.dp)) {
+        items(items = groups) { group ->
+            GroupCard(group = group)
         }
     }
 }
@@ -23,7 +24,7 @@ fun GroupList(groups: List<Group>) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupCard(group: Group) {
-    OutlinedCard(onClick = {}, modifier = Modifier.padding(all = 10.dp)) {
-        Text(group.name)
+    OutlinedCard(onClick = {}) {
+        Text(text = group.name, modifier = Modifier.fillMaxWidth().padding(all = 10.dp))
     }
 }
