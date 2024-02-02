@@ -1,4 +1,4 @@
-package ui.login
+package ui.signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
