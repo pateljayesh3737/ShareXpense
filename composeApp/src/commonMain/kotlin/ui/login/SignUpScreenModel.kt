@@ -71,7 +71,6 @@ class SignUpScreenModel : StateScreenModel<SignUpScreenModel.State>(State.Init) 
         data object Init : State()
         data object Loading : State()
         data class Success(val authResult: AuthResult) : State()
-
         data class Error(val exception: FirebaseAuthException) : State()
     }
 }
