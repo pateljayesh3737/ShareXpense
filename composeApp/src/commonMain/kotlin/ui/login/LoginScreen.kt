@@ -30,6 +30,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import ui.home.HomeScreen
+import ui.signup.SignUpScreen
 
 object LoginScreen : Screen {
 
@@ -54,6 +55,7 @@ object LoginScreen : Screen {
                 when (val state = loginState) {
                     is LoginScreenModel.State.Error -> {
                         println("Error found while logging in")
+                        screenModel.resetState()
                     }
 
                     is LoginScreenModel.State.Init -> {

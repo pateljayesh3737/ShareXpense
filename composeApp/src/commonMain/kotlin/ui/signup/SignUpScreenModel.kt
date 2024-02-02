@@ -1,4 +1,4 @@
-package ui.login
+package ui.signup
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

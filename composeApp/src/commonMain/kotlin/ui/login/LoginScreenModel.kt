@@ -64,6 +64,13 @@ class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init) {
         }
     }
 
+    fun resetState() {
+        errorMessage.value = Pair("", "")
+        email.value = ""
+        password.value = ""
+        mutableState.value = State.Init
+    }
+
     sealed class State {
         data object Init : State()
         data object Loading : State()
