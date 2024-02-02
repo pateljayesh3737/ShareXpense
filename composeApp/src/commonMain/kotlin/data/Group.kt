@@ -1,6 +1,10 @@
 package data
 
-class Group(val groupId: String, private var name: String) {
+import kotlinx.serialization.Serializable
+
+@Serializable
+class Group(
+    val groupId: String, var name: String) {
     private val members = mutableListOf<User>()
     private val sharedExpenses = mutableListOf<SharedExpense>()
 

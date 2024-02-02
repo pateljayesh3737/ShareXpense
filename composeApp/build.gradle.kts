@@ -47,7 +47,8 @@ kotlin {
             implementation(libs.firebase.firestore) 
             implementation(libs.firebase.common)
             implementation(libs.firebase.auth)
-            implementation(libs.kotlinx.serialization.json) 
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.uuid)
         }
 
         dependencies {
