@@ -1,4 +1,4 @@
-package ui.group
+package ui.group.create
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
