@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -45,7 +47,19 @@ object HomeScreen : Screen {
         val createGroupLabel = "Create Group"
 
         Scaffold(
-            topBar = { TopAppBar(title = { Text("ShareXpense") }) },
+            topBar = {
+                TopAppBar(
+                    title = { Text("ShareXpense") },
+                    actions = {
+                        IconButton(onClick = { groupScreenModel.signOut() }) {
+                            Icon(
+                                imageVector = Icons.Default.ExitToApp,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                )
+            },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
                     onClick = {
@@ -93,6 +107,10 @@ object HomeScreen : Screen {
                                 }
                             )
                         }
+                    }
+
+                    is GroupScreenModel.State.LoggedOut -> {
+                        navigator.popUntilRoot()
                     }
                 }
             }

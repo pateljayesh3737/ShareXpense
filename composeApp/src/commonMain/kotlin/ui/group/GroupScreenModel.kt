@@ -12,9 +12,17 @@ import util.ROOT_GROUP_COLLECTION_NAME
 import util.checkFirebaseUser
 
 class GroupScreenModel : StateScreenModel<GroupScreenModel.State>(State.Init) {
+    fun signOut() {
+        screenModelScope.launch {
+            Firebase.auth.signOut()
+            mutableState.value = State.LoggedOut
+        }
+    }
+
     sealed class State {
         data object Init : State()
         data object Loading : State()
+        data object LoggedOut : State()
         data class Success(val groups: MutableList<Group>) : State()
         data class Error(val exception: Throwable) : State()
     }
