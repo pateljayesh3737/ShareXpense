@@ -11,7 +11,10 @@ import dev.gitlive.firebase.auth.FirebaseAuthException
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import util.ROOT_USER_COLLECTION_NAME
+import util.addUserToDatabase
 
 class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init) {
     private val auth: FirebaseAuth = Firebase.auth
@@ -48,7 +51,16 @@ class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init) {
                         val authResult =
                             auth.signInWithEmailAndPassword(email = email, password = password)
 
-                        checkLoginState(authResult.user)
+                        checkLoginState(
+                            firebaseUser = authResult.user,
+                            onSuccess = {
+                                mutableState.value = State.Success(firebaseUser = it)
+                            },
+                            onFailure = {
+                                mutableState.value =
+                                    State.Error(exception = Throwable("Failed to login"))
+                            }
+                        )
                     } catch (ex: FirebaseAuthException) {
                         mutableState.value = State.Error(exception = ex)
                     }
@@ -57,28 +69,20 @@ class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init) {
         }
     }
 
-    private fun checkLoginState(firebaseUser: FirebaseUser?) {
+    private fun checkLoginState(
+        firebaseUser: FirebaseUser?,
+        onSuccess: (FirebaseUser) -> Unit = {},
+        onFailure: () -> Unit = {}
+    ) {
         firebaseUser?.let {
-            mutableState.value = State.Success(firebaseUser = it)
-            addUserToDatabase(it)
+            onSuccess(it)
+            it.addUserToDatabase(screenModelScope)
         } ?: run {
-            mutableState.value =
-                State.Error(exception = Throwable("Failed to login"))
+            onFailure()
         }
     }
 
-    private fun addUserToDatabase(firebaseUser: FirebaseUser) {
-        screenModelScope.launch {
-            val db = Firebase.firestore
-            val user = User(userId = firebaseUser.uid, name = firebaseUser.displayName ?: "User")
-            println("firebase user id ${user.userId}")
-            val userCollection = db.collection("Users")
-            val documentSnapshot = userCollection.document(user.userId).get()
-            if (!documentSnapshot.exists) {
-                userCollection.document(user.userId).set(user)
-            }
-        }
-    }
+
 
     private fun resetState() {
         errorMessage.value = Pair("", "")
