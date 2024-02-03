@@ -3,12 +3,15 @@ package ui.group
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import data.Group
+import data.User
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import util.ROOT_GROUP_COLLECTION_NAME
+import util.ROOT_USER_COLLECTION_NAME
+import util.addUserToDatabase
 import util.checkFirebaseUser
 
 class GroupScreenModel : StateScreenModel<GroupScreenModel.State>(State.Init) {
@@ -30,11 +33,14 @@ class GroupScreenModel : StateScreenModel<GroupScreenModel.State>(State.Init) {
     private val db = Firebase.firestore
 
     init {
-        if (Firebase.auth.currentUser.checkFirebaseUser {
+        val firebaseUser = Firebase.auth.currentUser
+        if (firebaseUser.checkFirebaseUser {
                 mutableState.value = State.Error(Throwable("Firebase user is not logged in"))
             }
         ) {
             screenModelScope.launch {
+                firebaseUser?.addUserToDatabase(scope = this)
+
                 val collectionReference = db.collection(ROOT_GROUP_COLLECTION_NAME)
                 val groupSnapshots = collectionReference.snapshots
                 groupSnapshots.collectLatest { qs ->
