@@ -27,6 +27,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import ui.group.GroupScreenModel
 import ui.group.create.CreateGroupScreen
+import ui.group.info.GroupInfoScreen
 import ui.group.list.GroupList
 import util.CircularProgressBar
 
@@ -85,7 +86,12 @@ object HomeScreen : Screen {
                                     .align(Alignment.CenterHorizontally)
                             )
 
-                            else -> GroupList(groups = groups)
+                            else -> GroupList(
+                                groups = groups,
+                                onGroupSelected = {
+                                    navigator.push(GroupInfoScreen(group = it))
+                                }
+                            )
                         }
                     }
                 }
