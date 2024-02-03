@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -16,10 +17,15 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -34,6 +40,11 @@ data class AddExpenseScreen(private val group: Group) : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
 
+        val addExpenseScreenModel = rememberScreenModel { AddExpenseScreenModel() }
+
+        var expenseDescription by remember { addExpenseScreenModel.expenseDescription }
+        var cost by remember { addExpenseScreenModel.cost }
+
         Scaffold(
             topBar = {
                 MyTopAppBar(
@@ -47,7 +58,10 @@ data class AddExpenseScreen(private val group: Group) : Screen {
                 )
             }
         ) { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
+            Column(
+                modifier = Modifier.padding(paddingValues = paddingValues).fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(text = "With you and: ${group.name}")
@@ -59,10 +73,13 @@ data class AddExpenseScreen(private val group: Group) : Screen {
                         Spacer(modifier = Modifier.padding(horizontal = 4.dp))
 
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = expenseDescription,
+                            onValueChange = { expenseDescription = it },
                             placeholder = { Text("Enter a description") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Next
+                            ),
                             singleLine = true
                         )
                     }
@@ -74,10 +91,19 @@ data class AddExpenseScreen(private val group: Group) : Screen {
                         Spacer(modifier = Modifier.padding(horizontal = 4.dp))
 
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            placeholder = { Text("0.00") },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
+                            value = "$cost",
+                            onValueChange = {
+                                val cleanedInput = it.replace(Regex("[^\\d.]"), "")
+                                val parts = cleanedInput.split(".")
+
+                                if (parts.size <= 2) {
+                                    cost = cleanedInput.toFloatOrNull() ?: 0f
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                keyboardType = KeyboardType.Decimal,
+                                imeAction = ImeAction.Done
+                            ),
                             singleLine = true
                         )
                     }
