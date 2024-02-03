@@ -4,11 +4,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import data.User
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseAuthException
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
+import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
 class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init) {
@@ -58,17 +60,36 @@ class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init) {
     private fun checkLoginState(firebaseUser: FirebaseUser?) {
         firebaseUser?.let {
             mutableState.value = State.Success(firebaseUser = it)
+            addUserToDatabase(it)
         } ?: run {
             mutableState.value =
                 State.Error(exception = Throwable("Failed to login"))
         }
     }
 
-    fun resetState() {
+    private fun addUserToDatabase(firebaseUser: FirebaseUser) {
+        screenModelScope.launch {
+            val db = Firebase.firestore
+            val user = User(userId = firebaseUser.uid, name = firebaseUser.displayName ?: "User")
+            println("firebase user id ${user.userId}")
+            val userCollection = db.collection("Users")
+            val documentSnapshot = userCollection.document(user.userId).get()
+            if (!documentSnapshot.exists) {
+                userCollection.document(user.userId).set(user)
+            }
+        }
+    }
+
+    private fun resetState() {
         errorMessage.value = Pair("", "")
         email.value = ""
         password.value = ""
         mutableState.value = State.Init
+    }
+
+    override fun onDispose() {
+        super.onDispose()
+        resetState()
     }
 
     sealed class State {

@@ -105,7 +105,6 @@ object SignUpScreen : Screen {
 
                     is SignUpScreenModel.State.Success -> {
                         val firebaseUser = state.authResult.user
-                        println("Success : $firebaseUser")
 
                         if (firebaseUser != null) {
                             navigator.push(HomeScreen)

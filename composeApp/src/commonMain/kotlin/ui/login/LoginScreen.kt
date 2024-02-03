@@ -51,10 +51,10 @@ object LoginScreen : Screen {
                 val loginState by screenModel.state.collectAsState()
                 val errorMessageState by remember { screenModel.errorMessage }
 
-                when (val state = loginState) {
+                when (loginState) {
                     is LoginScreenModel.State.Error -> {
                         println("Error found while logging in")
-                        screenModel.resetState()
+                        screenModel.onDispose()
                     }
 
                     is LoginScreenModel.State.Init -> {
@@ -119,9 +119,8 @@ object LoginScreen : Screen {
                     }
 
                     is LoginScreenModel.State.Success -> {
-                        val firebaseUser = state.firebaseUser
-                        println("Success : $firebaseUser")
                         navigator.push(HomeScreen)
+                        screenModel.onDispose()
                     }
                 }
             }
