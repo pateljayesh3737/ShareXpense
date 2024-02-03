@@ -13,18 +13,18 @@ import androidx.compose.ui.unit.dp
 import data.Group
 
 @Composable
-fun GroupList(groups: List<Group>) {
+fun GroupList(groups: List<Group>, onGroupSelected: (Group) -> Unit) {
     LazyColumn(modifier = Modifier.padding(10.dp)) {
         items(items = groups) { group ->
-            GroupCard(group = group)
+            GroupCard(group = group, onGroupSelected = onGroupSelected)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupCard(group: Group) {
-    OutlinedCard(onClick = {}) {
+fun GroupCard(group: Group, onGroupSelected: (Group) -> Unit) {
+    OutlinedCard(onClick = { onGroupSelected(group) }) {
         Text(text = group.name, modifier = Modifier.fillMaxWidth().padding(all = 10.dp))
     }
 }
